@@ -31,7 +31,7 @@ if __name__ == '__main__':
     menuPrincipal.define_menu(['[1]- Actividad 1','[2]- Actividad 2','[3]- Actividad 3','[4]- Ejecutar funcion test','[0]- Salir'])
     menuPrincipal.showMenu()
     opcion = menuPrincipal.selectOption()
-
+    manejador = ManejadorViajeros()
     while(opcion != 0):
         #Apartado 1
         if opcion == 1:    
@@ -40,8 +40,7 @@ if __name__ == '__main__':
             archivo = open(nombreArch)
             reader = csv.reader(archivo,delimiter=',')
             bandera = True
-            manejador = ManejadorViajeros()
-
+    
             for fila in reader:
                 if bandera:
                     bandera = False
@@ -57,29 +56,24 @@ if __name__ == '__main__':
 
         #Apartado 2
         elif opcion == 2:
-            try:
-                numero = input('Ingrese numero viajero frecuente: ')
-                pos = manejador.getViajero(numero)
-                if pos != None:
-                    menuSecundario = Menu()
-                    menuSecundario.define_menu(['[1]- Consultar cantidad de millas','[2]- Acumular millas','[3]- Canjear millas','[0]- Volver a menu principal'])
+            numero = input('Ingrese numero viajero frecuente: ')
+            pos = manejador.getViajero(numero)
+            if pos != None:
+                menuSecundario = Menu()
+                menuSecundario.define_menu(['[1]- Consultar cantidad de millas','[2]- Acumular millas','[3]- Canjear millas','[0]- Volver a menu principal'])
+                menuSecundario.showMenu()
+                opcion2 = menuSecundario.selectOption()
+                while opcion2 != 0:     
+                    if opcion2 == 1:
+                        manejador.setData(pos,'millas')
+                    elif opcion2 == 2:
+                        manejador.setData(pos,'acumular')
+                    elif opcion2 == 3:
+                        manejador.setData(pos,'canjear')
+                    input('Presione ENTER para continuar...')
                     menuSecundario.showMenu()
                     opcion2 = menuSecundario.selectOption()
-                    while opcion2 != 0:     
-                        if opcion2 == 1:
-                            manejador.setData(pos,'millas')
-                        elif opcion2 == 2:
-                            manejador.setData(pos,'acumular')
-                        elif opcion2 == 3:
-                            manejador.setData(pos,'canjear')
-                        input('Presione ENTER para continuar...')
-                        menuSecundario.showMenu()
-                        opcion2 = menuSecundario.selectOption()
-                else:
-                    input('Presione ENTER para volver al menu...')
-            except NameError:
-                print('No ha creado la lista de viajeros! Ejecute actividad 1 o 3.')
-                input('Presione ENTER para volver al menu...')
+            input('Presione ENTER para volver al menu...')
 
         #Apartado 3
         elif opcion == 3:

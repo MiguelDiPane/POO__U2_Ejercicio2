@@ -11,7 +11,7 @@ class ManejadorViajeros:
     
     def addViajero(self,num,dni,nom,ap,mill):
         #Comprobacion tipo de datos entero
-        try:
+        if num.isdigit() and mill.isdigit():
             num = int(num)
             mill = int(mill)
             #Comprobacion de strings sin numeros (nombre y apellido)
@@ -25,11 +25,11 @@ class ManejadorViajeros:
                 viajero = ViajeroFrecuente(num,dni,nom,ap,mill)
                 self.__listaViajeros.append(viajero)
                 print('Viajero creado y agregado a la lista')
-        except ValueError:
+        else:
             print('Error: numero o millas no son numeros enteros! El viajero no puede crearse')        
 
     def getViajero(self,numero):
-        try:
+        if numero.isdigit():
             numero = int(numero)
             bandera = True
             i = 0
@@ -42,7 +42,7 @@ class ManejadorViajeros:
             if i == len(self.__listaViajeros):
                 i = None
                 print('Error: El numero no corresponde a un viajero registrado, reintente.')       
-        except ValueError:
+        else:
             print('Error: Debe ingresar un numero entero!')
             i = None
         return i #Retorno posicion en la lista
@@ -53,16 +53,18 @@ class ManejadorViajeros:
             misMillas = self.__listaViajeros[pos].cantidadTotaldeMillas()
             print('Dispone de {} millas en total'.format(misMillas))
         elif operacion == 'acumular':
-            try:
-                newMillas = int(input('Ingrese millas acumular: '))
+            newMillas = input('Ingrese millas acumular: ')
+            if newMillas.isdigit():
+                newMillas = int(newMillas)
                 self.__listaViajeros[pos].acumularMillas(newMillas)
-            except ValueError:
+            else:
                 print('Error: Numero de millas invalido.')
         elif operacion == 'canjear':
-            try:
-                cant = int(input('Ingrese millas a canjear: '))
+            cant = input('Ingrese millas a canjear: ')
+            if cant.isdigit():
+                cant = int(cant)
                 self.__listaViajeros[pos].canjearMillas(cant)
-            except ValueError:
+            else:
                 print('Error: Numero de millas invalido.')
 
     def repenMemoria(self):
